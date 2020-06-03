@@ -14,7 +14,7 @@ from requests.sessions import merge_setting, merge_cookies
 from requests.utils import get_encodings_from_content
 from urllib3 import disable_warnings
 
-from W13SCAN.lib.data import conf
+from lib.core.data import conf
 
 
 def patch_all():
@@ -51,13 +51,14 @@ def session_request(self, method, url,
 
     raw = ''
     if prep.body:
-        raw = "{}\n{}\n\n{}".format(
-            prep.method + ' ' + prep.url,
+
+        raw = "{}\n{}\n\n{}\n\n".format(
+            prep.method + ' ' + prep.url + ' HTTP/1.1',
             '\n'.join('{}: {}'.format(k, v) for k, v in prep.headers.items()),
             prep.body)
     else:
-        raw = "{}\n{}".format(
-            prep.method + ' ' + prep.url,
+        raw = "{}\n{}\n\n".format(
+            prep.method + ' ' + prep.url + ' HTTP/1.1',
             '\n'.join('{}: {}'.format(k, v) for k, v in prep.headers.items()))
 
     proxies = proxies or {}
@@ -89,10 +90,5 @@ def session_request(self, method, url,
 
         resp.encoding = encoding
 
-    if not getattr(resp, 'raw', None):
-        resp.raw = raw
-    else:
-        tmp = resp.raw
-        resp.raw = raw
-        setattr(resp, 'raw2', tmp)
+    setattr(resp, 'reqinfo', raw)
     return resp
