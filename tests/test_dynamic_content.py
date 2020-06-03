@@ -6,7 +6,7 @@
 
 import unittest
 
-from lib.helper.diifpage import findDynamicContent
+from W13SCAN.lib.helper.diifpage import findDynamicContent
 
 
 class TestCase(unittest.TestCase):

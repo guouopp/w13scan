@@ -1,6 +1,6 @@
 import unittest
 
-from lib.spiderset import SpiderSet
+from W13SCAN.lib.spiderset import SpiderSet
 
 
 class TestCase(unittest.TestCase):
